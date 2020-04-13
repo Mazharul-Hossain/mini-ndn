@@ -1,0 +1,38 @@
+#!/bin/bash
+#PBS -l nodes=1:ppn=8
+#PBS -l mem=16gb
+#PBS -l walltime=05:00:00
+
+###############################################
+# # Requests 2 node and 10 processors per node
+# # Requests 4 GB of RAM
+# # Sets max walltime for the job to 10 minutes
+###############################################
+##### Optional field ###########################
+# #PBS -N myscript
+# # Sets the name of the job as displayed by qstat
+# #PBS -o myscript.out
+# # Sends standard output to myscript.out
+# #PBS -e myscript.err
+# # Sends standard error to myscript.err
+###############################################
+##### Command to run from head node ###########
+# qsub my_job.pbs        # To run the job 
+# qstat -u $USER         # For job status 
+# mjobctl -c jobIDnumber # To cancel
+###############################################
+##### To check available module ###############
+# module avail        # inside computation node
+###############################################
+
+cd /home/mhssain9/mini-ndn/
+
+vagrant up
+vagrant ssh
+
+sudo python examples/mnndn.py
+sudo python examples/my_test/pingall.py
+
+logout
+
+vagrant halt

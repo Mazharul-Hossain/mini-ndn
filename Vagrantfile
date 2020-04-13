@@ -10,7 +10,7 @@ if [[ -f /home/vagrant/mini-ndn/install.sh ]]; then
 else
   # Remove the symlink
   rm /home/vagrant/mini-ndn
-  git clone --depth 1 https://github.com/named-data/mini-ndn.git
+  git clone --depth 1 https://github.com/Mazharul-Hossain/mini-ndn.git
   pushd mini-ndn
 fi
 ./install.sh -qa
@@ -22,7 +22,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", privileged: false, inline: $script
   config.vm.provider "virtualbox" do |vb|
     vb.name = "mini-ndn_box"
-    vb.memory = 4096
-    vb.cpus = 4
+    vb.memory = 12288
+    vb.cpus = 6
   end
 end

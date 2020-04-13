@@ -153,6 +153,31 @@ function ndn_install {
     popd
 }
 
+# mazhar wrote it as has no idea hot to incorporate his requirement 
+function custom_install {
+    # name=NFD $NFD_VERSION=master --without-websocket
+    $NFD_GITHUB="https://github.com/Mazharul-Hossain/NFD.git"
+    mkdir -p $NDN_SRC
+    name=$1
+    version=$2
+    wafOptions=$3
+
+    if [[ $version == "master" ]]; then
+        if [[ -d "$NDN_SRC/$name" ]]; then
+            pushd $NDN_SRC/$name
+            git checkout master
+        else
+            git clone --depth 1 $NFD_GITHUB $NDN_SRC/$name
+            pushd $NDN_SRC/$name
+        fi    
+    fi
+
+    # User must use the same python version as root to use ./waf outside of this script
+    sudo -E -u $REAL_USER ./waf configure $wafOptions
+    sudo -E -u $REAL_USER ./waf && sudo ./waf install && sudo ldconfig
+    popd
+}
+
 function ndn {
     if [[ updated != true ]]; then
         $update
@@ -168,7 +193,7 @@ function ndn {
     fi
 
     ndn_install ndn-cxx $NDN_CXX_VERSION
-    ndn_install NFD $NFD_VERSION --without-websocket
+    custom_install NFD $NFD_VERSION --without-websocket
     ndn_install PSync $PSYNC_VERSION --with-examples
     ndn_install ChronoSync $CHRONOSYNC_VERSION
     ndn_install NLSR $NLSR_VERSION
