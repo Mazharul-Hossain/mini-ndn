@@ -23,15 +23,13 @@
 
 import time
 
-from mininet.log import setLogLevel
+from mininet.log import setLogLevel, info
 
 from minindn.minindn import Minindn
-from minindn.util import MiniNDNCLI
 from minindn.apps.app_manager import AppManager
 from minindn.apps.nfd import Nfd
 from minindn.apps.nlsr import Nlsr
 from minindn.helpers.experiment import Experiment
-from minindn.helpers.nfdc import Nfdc
 
 from nlsr_common import getParser
 
@@ -44,20 +42,23 @@ if __name__ == '__main__':
     ndn.start()
 
     nfds = AppManager(ndn, ndn.net.hosts, Nfd)
-    nlsrs = AppManager(ndn, ndn.net.hosts, Nlsr, sync=args.sync,
-                       security=args.security, faceType=args.faceType,
-                       nFaces=args.faces, routingType=args.routingType,
-                       logLevel='ndn.*=TRACE:nlsr.*=TRACE')
+    nlsrs = AppManager(ndn, [], Nlsr)
 
-    Experiment.checkConvergence(ndn, ndn.net.hosts, args.ctime, quit=False)
+    i = 1
+    info('Starting NLSR on nodes\n')
+    for host in ndn.net.hosts:
+        nlsrs.startOnNode(host, security=args.security, sync=args.sync, faceType=args.faceType,
+                          nFaces=args.faces, routingType=args.routingType)
 
-    if args.nPings != 0:
-        Experiment.setupPing(ndn.net.hosts, Nfdc.STRATEGY_BEST_ROUTE)
-        Experiment.startPctPings(ndn.net, args.nPings, args.pctTraffic)
+        # Wait 1/2 minute between starting NLSRs
+        # Wait 1 hour before starting last NLSR
+        if i == len(ndn.net.hosts) - 1:
+            info('Sleeping 1 hour before starting last NLSR\n')
+            time.sleep(3600)
+        else:
+            time.sleep(30)
+        i += 1
 
-        time.sleep(args.nPings + 10)
-
-    if args.isCliEnabled:
-        MiniNDNCLI(ndn.net)
+    Experiment.checkConvergence(ndn, ndn.net.hosts, args.ctime, quit=True)
 
     ndn.stop()

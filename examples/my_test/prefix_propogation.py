@@ -23,7 +23,7 @@
 
 import time
 
-from mininet.log import setLogLevel
+from mininet.log import setLogLevel, info
 
 from minindn.minindn import Minindn
 from minindn.util import MiniNDNCLI
@@ -31,7 +31,6 @@ from minindn.apps.app_manager import AppManager
 from minindn.apps.nfd import Nfd
 from minindn.apps.nlsr import Nlsr
 from minindn.helpers.experiment import Experiment
-from minindn.helpers.nfdc import Nfdc
 
 from nlsr_common import getParser
 
@@ -46,16 +45,38 @@ if __name__ == '__main__':
     nfds = AppManager(ndn, ndn.net.hosts, Nfd)
     nlsrs = AppManager(ndn, ndn.net.hosts, Nlsr, sync=args.sync,
                        security=args.security, faceType=args.faceType,
-                       nFaces=args.faces, routingType=args.routingType,
-                       logLevel='ndn.*=TRACE:nlsr.*=TRACE')
+                       nFaces=args.faces, routingType=args.routingType)
 
-    Experiment.checkConvergence(ndn, ndn.net.hosts, args.ctime, quit=False)
+    Experiment.checkConvergence(ndn, ndn.net.hosts, args.ctime, quit=True)
 
-    if args.nPings != 0:
-        Experiment.setupPing(ndn.net.hosts, Nfdc.STRATEGY_BEST_ROUTE)
-        Experiment.startPctPings(ndn.net, args.nPings, args.pctTraffic)
+    firstNode = ndn.net.hosts[0]
 
-        time.sleep(args.nPings + 10)
+    if args.security:
+        firstNode.cmd('ndnsec-set-default /ndn/{}-site/%C1.Operator/op'.format(firstNode.name))
+
+    info('Testing advertise\n')
+    firstNode.cmd('nlsrc advertise /testPrefix')
+    time.sleep(30)
+
+    for host in ndn.net.hosts:
+        if host.name != firstNode.name:
+            if (int(host.cmd('nfdc fib | grep testPrefix | wc -l')) != 1 or
+               int(host.cmd('nlsrc status | grep testPrefix | wc -l')) != 1):
+                info('Advertise test failed\n')
+                ndn.stop()
+                sys.exit(1)
+
+    info('Testing withdraw\n')
+    firstNode.cmd('nlsrc withdraw /testPrefix')
+    time.sleep(30)
+
+    for host in ndn.net.hosts:
+        if host.name != firstNode.name:
+            if (int(host.cmd('nfdc fib | grep testPrefix | wc -l')) != 0 or
+               int(host.cmd('nlsrc status | grep testPrefix | wc -l')) != 0):
+                info('Withdraw test failed\n')
+                ndn.stop()
+                sys.exit(1)
 
     if args.isCliEnabled:
         MiniNDNCLI(ndn.net)
