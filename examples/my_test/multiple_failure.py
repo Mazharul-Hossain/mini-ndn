@@ -36,10 +36,10 @@ from minindn.helpers.ndnpingclient import NDNPingClient
 
 from nlsr_common import getParser
 
-def multipleFailure(ndn, nfds, nlsrs, args):
 
+def multipleFailure(ndn, nfds, nlsrs, args):
     Experiment.checkConvergence(ndn, ndn.net.hosts, args.ctime, quit=True)
-    Experiment.setupPing(ndn.net.hosts, Nfdc.STRATEGY_BEST_ROUTE)
+    Experiment.setupPing(ndn.net.hosts, 'ifs-rl')
 
     PING_COLLECTION_TIME_BEFORE_FAILURE = 60
     FAILURE_INTERVAL = 60
@@ -69,7 +69,7 @@ def multipleFailure(ndn, nfds, nlsrs, args):
         info('Bringing up node {}\n'.format(host.name))
         nfds[host.name].start()
         nlsrs[host.name].start()
-        Experiment.setupPing([host], Nfdc.STRATEGY_BEST_ROUTE)
+        Experiment.setupPing([host], 'ifs-rl')
 
         recovery_time = int(time.time() - start_time)
 
@@ -86,7 +86,8 @@ def multipleFailure(ndn, nfds, nlsrs, args):
 
         time.sleep(RECOVERY_INTERVAL - recovery_time)
 
-    #Experiment.checkConvergence(ndn, ndn.net.hosts, args.ctime, quit=True)
+    # Experiment.checkConvergence(ndn, ndn.net.hosts, args.ctime, quit=True)
+
 
 if __name__ == '__main__':
     setLogLevel('info')

@@ -36,10 +36,11 @@ from minindn.helpers.ndnpingclient import NDNPingClient
 
 from nlsr_common import getParser
 
+
 def mcnFailure(ndn, nfds, nlsrs, args):
     Experiment.checkConvergence(ndn, ndn.net.hosts, args.ctime, quit=True)
     if args.nPings != 0:
-        Experiment.setupPing(ndn.net.hosts, Nfdc.STRATEGY_BEST_ROUTE)
+        Experiment.setupPing(ndn.net.hosts, 'ifs-rl')
         pingedDict = Experiment.startPctPings(ndn.net, args.nPings, args.pctTraffic)
 
     PING_COLLECTION_TIME_BEFORE_FAILURE = 60
@@ -61,13 +62,14 @@ def mcnFailure(ndn, nfds, nlsrs, args):
 
     # Restart pings
     if args.nPings != 0:
-        Experiment.setupPing([mcn], Nfdc.STRATEGY_BEST_ROUTE)
+        Experiment.setupPing([mcn], 'ifs-rl')
         for nodeToPing in pingedDict[mcn]:
             NDNPingClient.ping(mcn, nodeToPing, PING_COLLECTION_TIME_AFTER_RECOVERY)
 
         time.sleep(PING_COLLECTION_TIME_AFTER_RECOVERY)
 
     Experiment.checkConvergence(ndn, ndn.net.hosts, args.ctime, quit=True)
+
 
 if __name__ == '__main__':
     setLogLevel('info')

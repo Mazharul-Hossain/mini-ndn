@@ -23,7 +23,7 @@
 
 import time
 
-from mininet.log import setLogLevel
+from mininet.log import setLogLevel, info
 
 from minindn.minindn import Minindn
 from minindn.util import MiniNDNCLI
@@ -38,21 +38,31 @@ from nlsr_common import getParser
 if __name__ == '__main__':
     setLogLevel('info')
 
+    Minindn.cleanUp()
+    Minindn.verifyDependencies()
+
+    # Can pass a custom parser, custom topology, or any Mininet params here
     ndn = Minindn(parser=getParser())
     args = ndn.args
 
     ndn.start()
 
+    # Start apps with AppManager which registers a clean up function with ndn
+    info('Starting NFD on nodes\n')
     nfds = AppManager(ndn, ndn.net.hosts, Nfd)
+
+    info('Starting NLSR on nodes\n')
     nlsrs = AppManager(ndn, ndn.net.hosts, Nlsr, sync=args.sync,
                        security=args.security, faceType=args.faceType,
                        nFaces=args.faces, routingType=args.routingType,
                        logLevel='ndn.*=TRACE:nlsr.*=TRACE')
 
+    info('Starting Convergence Experiment on nodes\n')
     Experiment.checkConvergence(ndn, ndn.net.hosts, args.ctime, quit=False)
 
     if args.nPings != 0:
-        Experiment.setupPing(ndn.net.hosts, Nfdc.STRATEGY_BEST_ROUTE)
+        info('Starting ping on nodes\n')
+        Experiment.setupPing(ndn.net.hosts, 'ifs-rl')
         Experiment.startPctPings(ndn.net, args.nPings, args.pctTraffic)
 
         time.sleep(args.nPings + 10)
@@ -60,4 +70,5 @@ if __name__ == '__main__':
     if args.isCliEnabled:
         MiniNDNCLI(ndn.net)
 
+    # Calls the clean up functions registered via AppManager
     ndn.stop()
