@@ -17,3 +17,6 @@ openflow
 
 # Vagrant
 .vagrant
+
+# Jet Brains
+.idea

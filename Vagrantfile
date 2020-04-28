@@ -2,6 +2,12 @@
 # vi: set ft=ruby :
 
 $script = <<SCRIPT
+sudo apt update
+sudo apt install python3-dev python3-pip
+pip install --upgrade pip
+sudo pip install -U virtualenv  # system-wide install
+pip install --user --upgrade tensorflow==1.12      # CPU
+
 ln -s /vagrant /home/vagrant/mini-ndn
 
 # Check if install.sh is present or someone just copied the Vagrantfile directly
