@@ -2,11 +2,18 @@
 # vi: set ft=ruby :
 
 $script = <<SCRIPT
+
 sudo apt update
-sudo apt install python3-dev python3-pip
-pip install --upgrade pip
-sudo pip install -U virtualenv  # system-wide install
-pip install --user --upgrade tensorflow==1.12      # CPU
+sudo apt-get -y upgrade
+
+# sudo apt-get -y install python3-dev python3-pip
+# pip3 install --upgrade pip3
+# sudo pip3 install -U virtualenv  # system-wide install
+# pip3 install --user --upgrade tensorflow==1.12      # CPU
+
+sudo apt-get -y install python-dev python-pip
+sudo pip install -U virtualenv
+pip install --user --upgrade tensorflow==1.12
 
 ln -s /vagrant /home/vagrant/mini-ndn
 

@@ -156,7 +156,7 @@ function ndn_install {
 # mazhar wrote it as has no idea hot to incorporate his requirement 
 function custom_install {
     # name=NFD $NFD_VERSION=master --without-websocket
-    $NFD_GITHUB="https://github.com/Mazharul-Hossain/NFD.git"
+    NFD_GITHUB="https://github.com/Mazharul-Hossain/NFD.git"
     mkdir -p $NDN_SRC
     name=$1
     version=$2
