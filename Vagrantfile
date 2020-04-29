@@ -22,7 +22,7 @@ echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python2.7/" >>
 echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python2.7/" | sudo tee -a /root/.bashrc > /dev/null
 
 source ~/.bashrc
-source /root/.bashrc
+sudo source /root/.bashrc
 
 ln -s /vagrant /home/vagrant/mini-ndn
 
