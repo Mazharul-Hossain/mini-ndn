@@ -17,9 +17,9 @@ pip install --user --upgrade tensorflow==1.12
 
 # https://stackoverflow.com/a/22674820/2049763
 # Update the user's PYTHONPATH.
-echo "export CPLUS_INCLUDE_PATH=\CPLUS_INCLUDE_PATH:/usr/include/python2.7/" >> ~/.bashrc
+echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python2.7/" >> ~/.bashrc
 # Also update root's PYTHONPATH in case of running under sudo.
-echo "export CPLUS_INCLUDE_PATH=\CPLUS_INCLUDE_PATH:/usr/include/python2.7/" | sudo tee -a /root/.bashrc > /dev/null
+echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python2.7/" | sudo tee -a /root/.bashrc > /dev/null
 
 source ~/.bashrc
 
