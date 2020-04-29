@@ -6,13 +6,13 @@ $script = <<SCRIPT
 sudo apt update
 # sudo apt-get -y upgrade
 
-sudo apt-get -y install python-dev python-pip
-sudo pip install -U virtualenv
-pip install --user --upgrade tensorflow==1.12
+# sudo apt-get -y install python-dev python-pip
+# sudo pip install -U virtualenv
+# pip install --user --upgrade tensorflow==1.12
 
-sudo apt-get -y install python3-dev python3-pip
-sudo pip3 install -U virtualenv                     # system-wide install
-pip3 install --user --upgrade tensorflow==1.12      # CPU
+# sudo apt-get -y install python3-dev python3-pip
+# sudo pip3 install -U virtualenv                     # system-wide install
+# pip3 install --user --upgrade tensorflow==1.12      # CPU
 
 ln -s /vagrant /home/vagrant/mini-ndn
 

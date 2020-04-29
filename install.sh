@@ -172,29 +172,33 @@ function custom_install() {
     fi
   fi
 
-  # https://stackoverflow.com/a/22674820/2049763
-  # Update the user's PYTHONPATH.
-  echo "export PYTHONPATH=\$PYTHONPATH:$(pwd)/daemon/fw/IFS-RL" >>~/.bashrc
-  # Also update root's PYTHONPATH in case of running under sudo.
-  echo "export PYTHONPATH=\$PYTHONPATH:$(pwd)/daemon/fw/IFS-RL" | sudo tee -a /root/.bashrc >/dev/null
-
-  echo "export C_INCLUDE_PATH=/usr/include/python2.7" >>~/.bashrc
-  echo "export C_INCLUDE_PATH=\$C_INCLUDE_PATH:/usr/include/python3.6m" >>~/.bashrc
-  echo "export CPLUS_INCLUDE_PATH=/usr/include/python2.7" >>~/.bashrc
-  echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python3.6m" >>~/.bashrc
-  # Also update root's PYTHONPATH in case of running under sudo.
-  echo "export C_INCLUDE_PATH=/usr/include/python2.7" | sudo tee -a /root/.bashrc >/dev/null
-  echo "export C_INCLUDE_PATH=\C_INCLUDE_PATH:/usr/include/python3.6m" | sudo tee -a /root/.bashrc >/dev/null
-  echo "export CPLUS_INCLUDE_PATH=/usr/include/python2.7" | sudo tee -a /root/.bashrc >/dev/null
-  echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python3.6m" | sudo tee -a /root/.bashrc >/dev/null
-
-  source ~/.bashrc
-  sudo source /root/.bashrc
+#  # https://stackoverflow.com/a/22674820/2049763
+#  # Update the user's PYTHONPATH.
+#  echo "export PYTHONPATH=\$PYTHONPATH:$(pwd)/daemon/fw/IFS-RL" >>~/.bashrc
+#  # Also update root's PYTHONPATH in case of running under sudo.
+#  echo "export PYTHONPATH=\$PYTHONPATH:$(pwd)/daemon/fw/IFS-RL" | sudo tee -a /root/.bashrc >/dev/null
+#
+#  echo "export C_INCLUDE_PATH=/usr/include/python2.7" >>~/.bashrc
+#  echo "export C_INCLUDE_PATH=\$C_INCLUDE_PATH:/usr/include/python3.6m" >>~/.bashrc
+#  echo "export CPLUS_INCLUDE_PATH=/usr/include/python2.7" >>~/.bashrc
+#  echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python3.6m" >>~/.bashrc
+#  # Also update root's PYTHONPATH in case of running under sudo.
+#  echo "export C_INCLUDE_PATH=/usr/include/python2.7" | sudo tee -a /root/.bashrc >/dev/null
+#  echo "export C_INCLUDE_PATH=\C_INCLUDE_PATH:/usr/include/python3.6m" | sudo tee -a /root/.bashrc >/dev/null
+#  echo "export CPLUS_INCLUDE_PATH=/usr/include/python2.7" | sudo tee -a /root/.bashrc >/dev/null
+#  echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python3.6m" | sudo tee -a /root/.bashrc >/dev/null
+#
+#  source ~/.bashrc
+#  sudo source /root/.bashrc
 
   # User must use the same python version as root to use ./waf outside of this script
   echo "sudo -E -u $REAL_USER ./waf configure $wafOptions"
   sudo -E -u $REAL_USER ./waf configure $wafOptions
 
+#  ./waf distclean
+#  ./waf configure --without-websocket --with-tests (if you have written some unit tests)
+#  ./waf -v build
+#  sudo ./waf install
   echo "sudo -E -u $REAL_USER ./waf && sudo ./waf -v install && sudo ldconfig"
   sudo -E -u $REAL_USER ./waf && sudo ./waf -v install && sudo ldconfig
   popd
