@@ -195,8 +195,8 @@ function custom_install() {
   echo "sudo -E -u $REAL_USER ./waf configure $wafOptions"
   sudo -E -u $REAL_USER ./waf configure $wafOptions
 
-  echo "sudo -E -u $REAL_USER ./waf && sudo ./waf install && sudo ldconfig"
-  sudo -E -uv $REAL_USER ./waf && sudo ./waf install && sudo ldconfig
+  echo "sudo -E -u $REAL_USER ./waf && sudo ./waf -v install && sudo ldconfig"
+  sudo -E -u $REAL_USER ./waf && sudo ./waf -v install && sudo ldconfig
   popd
 }
 
@@ -216,10 +216,10 @@ function ndn() {
 
   ndn_install ndn-cxx $NDN_CXX_VERSION
   custom_install NFD $NFD_VERSION --without-websocket
-#  ndn_install PSync $PSYNC_VERSION --with-examples
-#  ndn_install ChronoSync $CHRONOSYNC_VERSION
-#  ndn_install NLSR $NLSR_VERSION
-#  ndn_install ndn-tools $NDN_TOOLS_VERSION
+  ndn_install PSync $PSYNC_VERSION --with-examples
+  ndn_install ChronoSync $CHRONOSYNC_VERSION
+  ndn_install NLSR $NLSR_VERSION
+  ndn_install ndn-tools $NDN_TOOLS_VERSION
   infoedit
 }
 
