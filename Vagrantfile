@@ -31,7 +31,8 @@ SCRIPT
 
 Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/bionic64"
-  config.vm.provision "shell", privileged: false, inline: $script
+#  config.vm.provision "shell", privileged: false, inline: $script
+  config.vm.provision "shell", privileged: false
   config.vm.provider "virtualbox" do |vb|
     vb.name = "mini-ndn_box"
     vb.memory = 12288

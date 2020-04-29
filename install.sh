@@ -189,16 +189,21 @@ function custom_install() {
   #  echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python3.6m" | sudo tee -a /root/.bashrc >/dev/null
   #
   #  source ~/.bashrc
-  #  sudo source /root/.bashrc
+  #  sudo -s
+  #  source /root/.bashrc
+  #  exit
 
   # User must use the same python version as root to use ./waf outside of this script
   echo "sudo -E -u $REAL_USER ./waf configure $wafOptions"
   sudo -E -u $REAL_USER ./waf configure $wafOptions
 
   #  ./waf distclean
+  #  /usr/local/bin/python3 ./waf configure --without-websocket --with-tests
   #  ./waf configure --without-websocket --with-tests (if you have written some unit tests)
-  #  ./waf -v build
+  #  sudo -E -u vagrant ./waf configure --without-websocket
+  #  sudo ./waf -v build
   #  sudo ./waf install
+  #  sudo -E -u vagrant ./waf && sudo ./waf -v install && sudo ldconfig
   echo "sudo -E -u $REAL_USER ./waf && sudo ./waf -v install && sudo ldconfig"
   sudo -E -u $REAL_USER ./waf && sudo ./waf -v install && sudo ldconfig
   popd
