@@ -174,14 +174,19 @@ function custom_install() {
 
   # https://stackoverflow.com/a/22674820/2049763
   # Update the user's PYTHONPATH.
-  # Update the user's PYTHONPATH.
   echo "export PYTHONPATH=\$PYTHONPATH:$(pwd)/daemon/fw/IFS-RL" >>~/.bashrc
   # Also update root's PYTHONPATH in case of running under sudo.
   echo "export PYTHONPATH=\$PYTHONPATH:$(pwd)/daemon/fw/IFS-RL" | sudo tee -a /root/.bashrc >/dev/null
 
+  echo "export C_INCLUDE_PATH=/usr/include/python2.7" >>~/.bashrc
+  echo "export C_INCLUDE_PATH=\$C_INCLUDE_PATH:/usr/include/python3.6m"
   echo "export CPLUS_INCLUDE_PATH=/usr/include/python2.7" >>~/.bashrc
+  echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python3.6m"
   # Also update root's PYTHONPATH in case of running under sudo.
+  echo "export C_INCLUDE_PATH=/usr/include/python2.7" | sudo tee -a /root/.bashrc >/dev/null
+  echo "export C_INCLUDE_PATH=\C_INCLUDE_PATH:/usr/include/python3.6m" | sudo tee -a /root/.bashrc >/dev/null
   echo "export CPLUS_INCLUDE_PATH=/usr/include/python2.7" | sudo tee -a /root/.bashrc >/dev/null
+  echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python3.6m" | sudo tee -a /root/.bashrc >/dev/null
 
   source ~/.bashrc
   sudo source /root/.bashrc
