@@ -179,9 +179,9 @@ function custom_install() {
   echo "export PYTHONPATH=\$PYTHONPATH:$(pwd)/daemon/fw/IFS-RL" | sudo tee -a /root/.bashrc >/dev/null
 
   echo "export C_INCLUDE_PATH=/usr/include/python2.7" >>~/.bashrc
-  echo "export C_INCLUDE_PATH=\$C_INCLUDE_PATH:/usr/include/python3.6m"
+  echo "export C_INCLUDE_PATH=\$C_INCLUDE_PATH:/usr/include/python3.6m" >>~/.bashrc
   echo "export CPLUS_INCLUDE_PATH=/usr/include/python2.7" >>~/.bashrc
-  echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python3.6m"
+  echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python3.6m" >>~/.bashrc
   # Also update root's PYTHONPATH in case of running under sudo.
   echo "export C_INCLUDE_PATH=/usr/include/python2.7" | sudo tee -a /root/.bashrc >/dev/null
   echo "export C_INCLUDE_PATH=\C_INCLUDE_PATH:/usr/include/python3.6m" | sudo tee -a /root/.bashrc >/dev/null
@@ -196,7 +196,7 @@ function custom_install() {
   sudo -E -u $REAL_USER ./waf configure $wafOptions
 
   echo "sudo -E -u $REAL_USER ./waf && sudo ./waf install && sudo ldconfig"
-  sudo -E -u $REAL_USER ./waf && sudo ./waf install && sudo ldconfig
+  sudo -E -uv $REAL_USER ./waf && sudo ./waf install && sudo ldconfig
   popd
 }
 
@@ -216,10 +216,10 @@ function ndn() {
 
   ndn_install ndn-cxx $NDN_CXX_VERSION
   custom_install NFD $NFD_VERSION --without-websocket
-  ndn_install PSync $PSYNC_VERSION --with-examples
-  ndn_install ChronoSync $CHRONOSYNC_VERSION
-  ndn_install NLSR $NLSR_VERSION
-  ndn_install ndn-tools $NDN_TOOLS_VERSION
+#  ndn_install PSync $PSYNC_VERSION --with-examples
+#  ndn_install ChronoSync $CHRONOSYNC_VERSION
+#  ndn_install NLSR $NLSR_VERSION
+#  ndn_install ndn-tools $NDN_TOOLS_VERSION
   infoedit
 }
 
