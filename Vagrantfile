@@ -25,7 +25,7 @@ else
   git clone --depth 1 https://github.com/Mazharul-Hossain/mini-ndn.git
   pushd mini-ndn
 fi
-./install.sh -qn
+./install.sh -qa
 
 SCRIPT
 

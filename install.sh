@@ -212,6 +212,8 @@ function custom_install() {
   popd
 
   # https://stackoverflow.com/a/48718936/2049763
+  # https://stackoverflow.com/q/48718533/2049763
+  # https://stackoverflow.com/q/19865757/2049763
   # PYTHONPATH=$PYTHONPATH:/home/vagrant/mini-ndn-ndn-src/NFD/daemon/fw/IFS-R
 
   # export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/lib/x86_64-linux-gnu
