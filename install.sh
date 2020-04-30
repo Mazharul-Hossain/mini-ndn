@@ -173,25 +173,28 @@ function custom_install() {
   fi
 
   #  # https://stackoverflow.com/a/22674820/2049763
-  #  # Update the user's PYTHONPATH.
-  #  echo "export PYTHONPATH=\$PYTHONPATH:$(pwd)/daemon/fw/IFS-RL" >>~/.bashrc
-  #  # Also update root's PYTHONPATH in case of running under sudo.
-  #  echo "export PYTHONPATH=\$PYTHONPATH:$(pwd)/daemon/fw/IFS-RL" | sudo tee -a /root/.bashrc >/dev/null
+  #  # find /usr/include -name pyconfig.h
+  #  # find /usr/lib -name libboost_python
+  #  #
+    # Update the user's PYTHONPATH.
+    echo "export PYTHONPATH=\$PYTHONPATH:$(pwd)/daemon/fw/IFS-RL" >>~/.bashrc
+    # Also update root's PYTHONPATH in case of running under sudo.
+    echo "export PYTHONPATH=\$PYTHONPATH:$(pwd)/daemon/fw/IFS-RL" | sudo tee -a /root/.bashrc >/dev/null
   #
   #  echo "export C_INCLUDE_PATH=/usr/include/python2.7" >>~/.bashrc
   #  echo "export C_INCLUDE_PATH=\$C_INCLUDE_PATH:/usr/include/python3.6m" >>~/.bashrc
-  #  echo "export CPLUS_INCLUDE_PATH=/usr/include/python2.7" >>~/.bashrc
-  #  echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python3.6m" >>~/.bashrc
+    echo "export CPLUS_INCLUDE_PATH=/usr/include/python2.7" >>~/.bashrc
+    echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python3.6m" >>~/.bashrc
   #  # Also update root's PYTHONPATH in case of running under sudo.
   #  echo "export C_INCLUDE_PATH=/usr/include/python2.7" | sudo tee -a /root/.bashrc >/dev/null
   #  echo "export C_INCLUDE_PATH=\C_INCLUDE_PATH:/usr/include/python3.6m" | sudo tee -a /root/.bashrc >/dev/null
-  #  echo "export CPLUS_INCLUDE_PATH=/usr/include/python2.7" | sudo tee -a /root/.bashrc >/dev/null
-  #  echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python3.6m" | sudo tee -a /root/.bashrc >/dev/null
+    echo "export CPLUS_INCLUDE_PATH=/usr/include/python2.7" | sudo tee -a /root/.bashrc >/dev/null
+    echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python3.6m" | sudo tee -a /root/.bashrc >/dev/null
   #
-  #  source ~/.bashrc
-  #  sudo -s
-  #  source /root/.bashrc
-  #  exit
+    source ~/.bashrc
+    sudo -s
+    source /root/.bashrc
+    exit
 
   # User must use the same python version as root to use ./waf outside of this script
   echo "sudo -E -u $REAL_USER ./waf configure $wafOptions"
@@ -207,6 +210,16 @@ function custom_install() {
   echo "sudo -E -u $REAL_USER ./waf && sudo ./waf -v install && sudo ldconfig"
   sudo -E -u $REAL_USER ./waf && sudo ./waf -v install && sudo ldconfig
   popd
+
+  # https://stackoverflow.com/a/48718936/2049763
+  # PYTHONPATH=$PYTHONPATH:/home/vagrant/mini-ndn-ndn-src/NFD/daemon/fw/IFS-R
+
+  # export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/lib/x86_64-linux-gnu
+  # export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/lib/python3.6
+  # export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/include/
+  # export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/include/python3.6m
+  # export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/include/boost/python
+
 }
 
 function ndn() {
@@ -216,7 +229,7 @@ function ndn() {
   fi
 
   if [[ $DIST == Ubuntu || $DIST == Debian ]]; then
-    $install git libsqlite3-dev libboost-all-dev make g++ libssl-dev libpcap-dev pkg-config python-dev python-pip python3-dev python3-pip
+    $install git libsqlite3-dev libboost-all-dev make g++ libssl-dev libpcap-dev pkg-config python-dev python-pip
   fi
 
   if [[ $DIST == Fedora ]]; then

@@ -25,14 +25,13 @@ else
   git clone --depth 1 https://github.com/Mazharul-Hossain/mini-ndn.git
   pushd mini-ndn
 fi
-./install.sh -qa
+./install.sh -qn
 
 SCRIPT
 
 Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/bionic64"
-#  config.vm.provision "shell", privileged: false, inline: $script
-  config.vm.provision "shell", privileged: false
+  config.vm.provision "shell", privileged: false, inline: $script
   config.vm.provider "virtualbox" do |vb|
     vb.name = "mini-ndn_box"
     vb.memory = 12288
