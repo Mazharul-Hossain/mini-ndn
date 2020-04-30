@@ -205,8 +205,8 @@ function custom_install() {
   LD_LIBRARY_PATH=/usr/local/lib
 
   # User must use the same python version as root to use ./waf outside of this script
-  echo "sudo -E -u $REAL_USER ./waf configure $wafOptions --with-boost-python --without-libpcap"
-  sudo -E -u $REAL_USER ./waf configure $wafOptions --with-boost-python --without-libpcap
+  echo "sudo -E -u $REAL_USER ./waf configure $wafOptions --with-boost-python"
+  sudo -E -u $REAL_USER ./waf configure $wafOptions --with-boost-python
 
   #  ./waf distclean
   #  /usr/local/bin/python3 ./waf configure --without-websocket --with-tests
