@@ -199,11 +199,7 @@ function custom_install() {
   echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/boost/python" | sudo tee -a /root/.bashrc >/dev/null
 
   echo "export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH" | sudo tee -a /root/.bashrc >/dev/null
-  #
-#  source ~/.bashrc
-#  sudo -s
-#  source /root/.bashrc
-#  exit
+
   PYTHONPATH=$PYTHONPATH:$(pwd)/daemon/fw/IFS-RL
   CPLUS_INCLUDE_PATH=/usr/lib/python3.6:/usr/include/python3.6m:/usr/include/boost/python
   LD_LIBRARY_PATH=/usr/local/lib
@@ -226,15 +222,6 @@ function custom_install() {
   # https://stackoverflow.com/a/48718936/2049763
   # https://stackoverflow.com/q/48718533/2049763
   # https://stackoverflow.com/q/19865757/2049763
-  # PYTHONPATH=$PYTHONPATH:/home/vagrant/mini-ndn-ndn-src/NFD/daemon/fw/IFS-R
-  # Not needed
-#   export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/lib/x86_64-linux-gnu
-#   export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/include/
-  # needed
-#   export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/lib/python3.6
-#   export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/include/python3.6m
-#   export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/include/boost/python
-
 }
 
 function ndn() {
