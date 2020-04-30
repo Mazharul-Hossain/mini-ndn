@@ -177,25 +177,31 @@ function custom_install() {
   #  # find /usr/lib -name libboost_python
   #  #
     # Update the user's PYTHONPATH.
-    echo "export PYTHONPATH=\$PYTHONPATH:$(pwd)/daemon/fw/IFS-RL" >>~/.bashrc
+    echo "export PYTHONPATH=\$PYTHONPATH:$(pwd)/daemon/fw/IFS-RL" >>/home/vagrant/.bashrc
     # Also update root's PYTHONPATH in case of running under sudo.
     echo "export PYTHONPATH=\$PYTHONPATH:$(pwd)/daemon/fw/IFS-RL" | sudo tee -a /root/.bashrc >/dev/null
   #
   #  echo "export C_INCLUDE_PATH=/usr/include/python2.7" >>~/.bashrc
   #  echo "export C_INCLUDE_PATH=\$C_INCLUDE_PATH:/usr/include/python3.6m" >>~/.bashrc
-    echo "export CPLUS_INCLUDE_PATH=/usr/include/python2.7" >>~/.bashrc
-    echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python3.6m" >>~/.bashrc
+#    echo "export CPLUS_INCLUDE_PATH=/usr/include/python2.7" >>~/.bashrc
+
+  echo "export CPLUS_INCLUDE_PATH=/usr/lib/python3.6" >>/home/vagrant/.bashrc
+  echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python3.6m" >>/home/vagrant/.bashrc
+  echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/boost/python" >>/home/vagrant/.bashrc
   #  # Also update root's PYTHONPATH in case of running under sudo.
   #  echo "export C_INCLUDE_PATH=/usr/include/python2.7" | sudo tee -a /root/.bashrc >/dev/null
   #  echo "export C_INCLUDE_PATH=\C_INCLUDE_PATH:/usr/include/python3.6m" | sudo tee -a /root/.bashrc >/dev/null
-    echo "export CPLUS_INCLUDE_PATH=/usr/include/python2.7" | sudo tee -a /root/.bashrc >/dev/null
-    echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python3.6m" | sudo tee -a /root/.bashrc >/dev/null
+#    echo "export CPLUS_INCLUDE_PATH=/usr/include/python2.7" | sudo tee -a /root/.bashrc >/dev/null
+  echo "export CPLUS_INCLUDE_PATH=/usr/lib/python3.6" | sudo tee -a /root/.bashrc >/dev/null
+  echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python3.6m" | sudo tee -a /root/.bashrc >/dev/null
+  echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/boost/python" | sudo tee -a /root/.bashrc >/dev/null
   #
-    source ~/.bashrc
-    sudo -s
-    source /root/.bashrc
-    exit
-
+#  source ~/.bashrc
+#  sudo -s
+#  source /root/.bashrc
+#  exit
+  PYTHONPATH=$PYTHONPATH:$(pwd)/daemon/fw/IFS-RL
+  CPLUS_INCLUDE_PATH=/usr/lib/python3.6:/usr/include/python3.6m:/usr/include/boost/python
   # User must use the same python version as root to use ./waf outside of this script
   echo "sudo -E -u $REAL_USER ./waf configure $wafOptions"
   sudo -E -u $REAL_USER ./waf configure $wafOptions
@@ -215,12 +221,13 @@ function custom_install() {
   # https://stackoverflow.com/q/48718533/2049763
   # https://stackoverflow.com/q/19865757/2049763
   # PYTHONPATH=$PYTHONPATH:/home/vagrant/mini-ndn-ndn-src/NFD/daemon/fw/IFS-R
-
-  # export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/lib/x86_64-linux-gnu
-  # export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/lib/python3.6
-  # export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/include/
-  # export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/include/python3.6m
-  # export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/include/boost/python
+  # Not needed
+#   export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/lib/x86_64-linux-gnu
+#   export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/include/
+  # needed
+#   export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/lib/python3.6
+#   export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/include/python3.6m
+#   export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/include/boost/python
 
 }
 
