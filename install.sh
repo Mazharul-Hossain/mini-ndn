@@ -198,15 +198,15 @@ function custom_install() {
   echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/python3.6m" | sudo tee -a /root/.bashrc >/dev/null
   echo "export CPLUS_INCLUDE_PATH=\$CPLUS_INCLUDE_PATH:/usr/include/boost/python" | sudo tee -a /root/.bashrc >/dev/null
 
-  echo "export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH" | sudo tee -a /root/.bashrc >/dev/null
+  echo "export LD_LIBRARY_PATH=/usr/local/lib:\$LD_LIBRARY_PATH" | sudo tee -a /root/.bashrc >/dev/null
 
   PYTHONPATH=$PYTHONPATH:$(pwd)/daemon/fw/IFS-RL
-  CPLUS_INCLUDE_PATH=/usr/lib/python3.6:/usr/include/python3.6m:/usr/include/boost/python
-  LD_LIBRARY_PATH=/usr/local/lib
+  CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/lib/python3.6:/usr/include/python3.6m:/usr/include/boost/python
+  LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
   # User must use the same python version as root to use ./waf outside of this script
-  echo "sudo -E -u $REAL_USER ./waf configure $wafOptions --with-boost-python"
-  sudo -E -u $REAL_USER ./waf configure $wafOptions --with-boost-python
+  echo "sudo -E -u $REAL_USER ./waf configure $wafOptions --with-boost-python  --without-libpcap"
+  sudo -E -u $REAL_USER ./waf configure $wafOptions
 
   #  ./waf distclean
   #  /usr/local/bin/python3 ./waf configure --without-websocket --with-tests
@@ -219,9 +219,10 @@ function custom_install() {
   sudo -E -u $REAL_USER ./waf && sudo ./waf -v install && sudo ldconfig
   popd
 
-  # https://stackoverflow.com/a/48718936/2049763
   # https://stackoverflow.com/q/48718533/2049763
   # https://stackoverflow.com/q/19865757/2049763
+
+#  g++ testing.cpp -I/usr/include/python3.6m -I/usr/include/boost -lboost_python3 -lpython3.6m -L/usr/lib -lpython3.6m -L/usr/lib/x86_64-linux-gnu -llibboost_python-py36.so -L/usr/include/boost/python  -I/usr/local/lib -o testing.o
 }
 
 function ndn() {
