@@ -28,12 +28,28 @@ def run():
     print("Setup")
     c1 = topo.addHost('c1')
     i1 = topo.addHost('i1')
+
     i2 = topo.addHost('i2')
+    i3 = topo.addHost('i3')
+    i4 = topo.addHost('i4')
+    i5 = topo.addHost('i5')
+
+    i6 = topo.addHost('i6')
     p1 = topo.addHost('p1')
-    topo.addLink(c1, i1, delay='10ms')
-    topo.addLink(c1, i2, delay='20ms')
-    topo.addLink(i1, p1, delay='10ms')
-    topo.addLink(i2, p1, delay='20ms')
+
+    topo.addLink(c1, i1, bw=10)
+
+    topo.addLink(i1, i2, bw=4, delay='40ms')
+    topo.addLink(i1, i3, bw=4, delay='10ms')
+    topo.addLink(i1, i4, bw=4, delay='40ms')
+    topo.addLink(i1, i5, bw=4, delay='40ms')
+
+    topo.addLink(i2, i6, bw=7, delay='7ms')
+    topo.addLink(i3, i6, bw=7, delay='7ms')
+    topo.addLink(i4, i6, bw=7, delay='7ms')
+    topo.addLink(i5, i6, bw=7, delay='7ms')
+
+    topo.addLink(i6, p1, bw=10)
     ndn = Minindn(topo=topo)
     ndn.start()
     nfds = AppManager(ndn, ndn.net.hosts, Nfd)
@@ -60,22 +76,24 @@ def run():
     interface = host2.connectionsTo(host1)[0]
     interface_ip = interface.IP()
     Nfdc.registerRoute(host1, PREFIX, interface_ip)
+
     # Run small thing before to ensure info caching, large afterwards?
-    print("Setup round")
-    getPopen(ndn.net["c1"], "ndn-traffic-client -c 5 ~/asf-experiments/cons_conf")
-    getPopen(ndn.net["p1"], "ndn-traffic-server -c 5 ~/asf-experiments/prod_conf")
-    # TODO: Traffic generator!
-    sleep(5)  # ?
-    nfds["i1"].stop()
+    # print("Setup round")
+    # getPopen(ndn.net["c1"], "ndn-traffic-client -c 5 ~/asf-experiments/cons_conf")
+    # getPopen(ndn.net["p1"], "ndn-traffic-server -c 5 ~/asf-experiments/prod_conf")
+    # # TODO: Traffic generator!
+    # sleep(5)  # ?
+    # nfds["i3"].stop()
     # tempshark = Tshark(ndn["c1"])
     # tempshark.start()
-    print("Round 1")
-    time1 = time()
-    getPopen(ndn.net["c1"], "ndn-traffic-client -c 20 ~/asf-experiments/cons_conf")
-    getPopen(ndn.net["p1"], "ndn-traffic-server -c 20 ~/asf-experiments/prod_conf")
-    # Wait on processes to close, end
-    time2 = time()
-    print("Time elapsed: {} s".format(time2 - time1))
+
+    # print("Round 1")
+    # time1 = time()
+    # getPopen(ndn.net["c1"], "ndn-traffic-client -c 20 ~/asf-experiments/cons_conf")
+    # getPopen(ndn.net["p1"], "ndn-traffic-server -c 20 ~/asf-experiments/prod_conf")
+    # # Wait on processes to close, end
+    # time2 = time()
+    # print("Time elapsed: {} s".format(time2 - time1))
     MiniNDNCLI(ndn.net)
 
 
