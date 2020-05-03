@@ -79,8 +79,8 @@ def run():
 
     # Run small thing before to ensure info caching, large afterwards?
     # print("Setup round")
-    # getPopen(ndn.net["c1"], "ndn-traffic-client -c 5 ~/asf-experiments/cons_conf")
-    # getPopen(ndn.net["p1"], "ndn-traffic-server -c 5 ~/asf-experiments/prod_conf")
+    # getPopen(ndn.net["c1"], "ndn-traffic-client -c 5 cons_conf")
+    # getPopen(ndn.net["p1"], "ndn-traffic-server -c 5 prod_conf")
     # # TODO: Traffic generator!
     # sleep(5)  # ?
     # nfds["i3"].stop()
@@ -89,8 +89,8 @@ def run():
 
     # print("Round 1")
     # time1 = time()
-    # getPopen(ndn.net["c1"], "ndn-traffic-client -c 20 ~/asf-experiments/cons_conf")
-    # getPopen(ndn.net["p1"], "ndn-traffic-server -c 20 ~/asf-experiments/prod_conf")
+    # getPopen(ndn.net["c1"], "ndn-traffic-client -c 20 cons_conf")
+    # getPopen(ndn.net["p1"], "ndn-traffic-server -c 20 prod_conf")
     # # Wait on processes to close, end
     # time2 = time()
     # print("Time elapsed: {} s".format(time2 - time1))

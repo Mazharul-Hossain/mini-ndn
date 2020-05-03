@@ -1,0 +1,4 @@
+TrafficPercentage=100
+Name=/example/A
+ExpectedContent=AAAAAAAA
+NameAppendSequenceNumber=2
